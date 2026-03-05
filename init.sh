@@ -111,6 +111,7 @@ fi
 # Reset git history if requested
 if [[ "$FRESH" == true ]]; then
   echo "Resetting git history..."
+  rm -f init.sh
   rm -rf .git
   git init
   git add -A
@@ -122,9 +123,7 @@ echo ""
 echo "Next steps:"
 echo "  1. Update README.org with your project description"
 echo "  2. Run 'make test' to verify everything works"
-echo "  3. Delete this script: git rm init.sh"
-if [[ "$FRESH" == true ]]; then
-  echo "  4. Add remote: git remote add origin <url>"
-else
+if [[ "$FRESH" != true ]]; then
+  echo "  3. Delete this script: git rm init.sh"
   echo "  4. Commit: git commit -am 'Instantiate $NAME from skeleton'"
 fi
