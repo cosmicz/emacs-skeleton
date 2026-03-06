@@ -91,7 +91,7 @@ else
 fi
 
 # Replace content in all tracked text files
-for f in *.el tests/*.el Makefile README.org CONTRIBUTING.org; do
+for f in *.el tests/*.el Makefile README.org CONTRIBUTING.org AGENTS.md; do
   [ -f "$f" ] || continue
   "${SED_I[@]}" "s/skeleton/$NAME/g" "$f"
   "${SED_I[@]}" "s/Skeleton/$CAPITALIZED/g" "$f"
@@ -112,6 +112,21 @@ fi
 if [[ "$FRESH" == true ]]; then
   echo "Resetting git history..."
   rm -f init.sh
+
+  # Remove init.sh references from README
+  # Remove the "* init.sh" section (heading through next heading)
+  "${SED_I[@]}" '/^\* init\.sh$/,/^\* [^i]/{/^\* [^i]/!d;}' README.org
+  # Remove init.sh from the file listing
+  "${SED_I[@]}" '/^init\.sh /d' README.org
+  # Remove "(updated by init.sh)" note
+  "${SED_I[@]}" 's/ (updated by init\.sh)//' README.org
+  # Remove the "renamed by init.sh" line
+  "${SED_I[@]}" '/renamed by.*init\.sh/d' README.org
+  # Replace Quick Start section (init.sh instructions no longer relevant)
+  "${SED_I[@]}" '/^\* Quick Start$/,/^\* [^Q]/{/^\* [^Q]/!d;}' README.org
+  # Remove overview line that mentions init.sh
+  "${SED_I[@]}" '/Clone it, run ~init\.sh~, and start building\./d' README.org
+
   rm -rf .git
   git init
   git add -A

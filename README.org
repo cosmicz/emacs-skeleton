@@ -20,6 +20,15 @@ git rm init.sh
 git commit -am "Instantiate my-project from skeleton"
 #+end_src
 
+Or start completely fresh (no upstream history):
+
+#+begin_src sh
+git clone https://github.com/YOU/emacs-skeleton my-project
+cd my-project
+./init.sh my-project "Your Name" --fresh
+make test
+#+end_src
+
 * What You Get
 
 #+begin_example
@@ -47,7 +56,7 @@ All files, symbols, and references are renamed by ~init.sh~.
 * init.sh
 
 #+begin_src sh
-./init.sh <project-name> [author]
+./init.sh <project-name> [author] [--fresh]
 #+end_src
 
 - Renames files: ~skeleton*.el~ → ~<project-name>*.el~
@@ -55,8 +64,10 @@ All files, symbols, and references are renamed by ~init.sh~.
 - Capitalizes the buffer name (~*My-Project Log*~)
 - Sets author in file headers and README if provided
 - Uses ~git mv~ so history stays clean
+- ~--fresh~: also removes ~init.sh~, cleans references from docs, and
+  resets git history with a clean initial commit
 
-After running, delete the script and commit.
+After running without ~--fresh~, delete the script and commit.
 
 * Makefile Targets
 

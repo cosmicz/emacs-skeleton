@@ -5,6 +5,9 @@
 *.log
 tmp/
 
+# Emacs backup files
+*.org~
+
 # Byte-compiled Elisp
 *.elc
 *-autoloads.el
@@ -15,13 +18,6 @@ tmp/
 # Package cache
 .packages
 
-# Development tracking
-DEVELOPMENT.org
-
 # Issue tracking (embead) — remove if not using embead
-.beads
-.embead/.current*
-.embead/.worktrees/
-.embead/beads.org
-.embead/beads_archive.org
-.embead/archive-*.org
+.beads/
+.embead/
