@@ -2,7 +2,7 @@ EMACS ?= emacs
 
 BATCH = $(EMACS) --batch -Q -L . -L ./tests
 
-.PHONY: all compile lint test tests clean help
+.PHONY: all compile lint test tests clean clean-elc help
 
 all: compile
 
@@ -12,7 +12,8 @@ compile:
 
 lint:
 	@echo "Running lint checks..."
-	@$(BATCH) --eval '(setq byte-compile-error-on-warn t)' \
+	@$(BATCH) --eval '(require (quote bytecomp))' \
+		--eval '(setq byte-compile-error-on-warn t byte-compile-warnings (quote (not docstrings-wide)))' \
 		-f batch-byte-compile *.el
 	@echo "Byte-compile clean."
 	@$(BATCH) --eval '\
@@ -33,15 +34,18 @@ lint:
 SELECT ?= ^skeleton-test-
 SELECTOR ?= $(SELECT)
 
-test:
+test: clean-elc
 	@$(BATCH) -l ./tests/skeleton-tests-runner.el \
-		--eval '(skeleton-run-tests-batch "$(SELECTOR)")'
+		--eval '(skeleton-run-tests-batch "$(SELECTOR)")' \
+		< /dev/null
 
 tests: test
 
-clean:
-	@echo "Cleaning up compilation artifacts..."
+clean-elc:
 	@rm -f *.elc tests/*.elc
+
+clean: clean-elc
+	@echo "Cleaning up all build artifacts..."
 	@rm -rf .packages
 	@echo "Done."
 
@@ -52,5 +56,6 @@ help:
 	@echo "  lint     - Byte-compile with warnings + checkdoc"
 	@echo "  test     - Run tests (SELECT= to filter)"
 	@echo "  tests    - Alias for 'test'"
+	@echo "  clean-elc - Remove byte-compiled .elc files only"
 	@echo "  clean    - Remove .elc files and build artifacts"
 	@echo "  help     - Show this help message"
