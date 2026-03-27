@@ -31,5 +31,33 @@
 (require 'skeleton-settings)
 (require 'skeleton-core)
 
+(defconst skeleton-version "0.1.0"
+  "Current version of skeleton.")
+
+;;; ── Module List & Reload ─────────────────────────────────────────────
+
+(defconst skeleton--modules
+  '(skeleton-settings skeleton-core skeleton)
+  "Skeleton modules to reload, in dependency order.")
+
+;;;###autoload
+(defun skeleton-reload ()
+  "Force-reload all skeleton modules and invalidate caches."
+  (interactive)
+  (let ((dir (file-name-directory (or load-file-name
+                                      (locate-library "skeleton")
+                                      buffer-file-name
+                                      default-directory))))
+    (unless (member dir load-path)
+      (add-to-list 'load-path dir))
+    (dolist (mod skeleton--modules)
+      (let ((file (locate-library (symbol-name mod))))
+        (when file
+          (load file nil t t)))))
+  ;; Clear any runtime caches here if needed, e.g.:
+  ;; (setq skeleton--some-cache nil)
+  (message "Reloaded %d skeleton modules"
+           (length meld--modules)))
+
 (provide 'skeleton)
 ;;; skeleton.el ends here
