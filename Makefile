@@ -33,9 +33,11 @@ lint:
 
 SELECT ?= ^skeleton-test-
 SELECTOR ?= $(SELECT)
+# VERBOSE=1 to show message output from tests (not swallowed by ERT)
+VERBOSE ?=
 
 test: clean-elc
-	@$(BATCH) -l ./tests/skeleton-tests-runner.el \
+	@SKELETON_TEST_VERBOSE=$(VERBOSE) $(BATCH) -l ./tests/skeleton-tests-runner.el \
 		--eval '(skeleton-run-tests-batch "$(SELECTOR)")' \
 		< /dev/null
 
@@ -54,7 +56,7 @@ help:
 	@echo "  all      - Default target. Same as 'compile'"
 	@echo "  compile  - Byte-compile all Elisp files"
 	@echo "  lint     - Byte-compile with warnings + checkdoc"
-	@echo "  test     - Run tests (SELECT= to filter)"
+	@echo "  test     - Run tests (SELECT= to filter, VERBOSE=1 for messages)"
 	@echo "  tests    - Alias for 'test'"
 	@echo "  clean-elc - Remove byte-compiled .elc files only"
 	@echo "  clean    - Remove .elc files and build artifacts"
