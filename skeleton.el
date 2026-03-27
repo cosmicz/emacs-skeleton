@@ -57,7 +57,7 @@
   ;; Clear any runtime caches here if needed, e.g.:
   ;; (setq skeleton--some-cache nil)
   (message "Reloaded %d skeleton modules"
-           (length meld--modules)))
+           (length skeleton--modules)))
 
 (provide 'skeleton)
 ;;; skeleton.el ends here
