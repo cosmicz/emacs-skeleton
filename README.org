@@ -12,7 +12,7 @@ Clone it, run ~init.sh~, and start building.
 * Quick Start
 
 #+begin_src sh
-git clone https://github.com/YOU/emacs-skeleton my-project
+git clone https://github.com/cosmicz/emacs-skeleton my-project
 cd my-project
 ./init.sh my-project "Your Name"
 make test
@@ -23,7 +23,7 @@ git commit -am "Instantiate my-project from skeleton"
 Or start completely fresh (no upstream history):
 
 #+begin_src sh
-git clone https://github.com/YOU/emacs-skeleton my-project
+git clone https://github.com/cosmicz/emacs-skeleton my-project
 cd my-project
 ./init.sh my-project "Your Name" --fresh
 make test
